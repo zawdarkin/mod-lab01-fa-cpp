@@ -1,92 +1,71 @@
 // Copyright 2022 UNN-IASR
 #include "fun.h"
 #include <cctype>
-#include <cstring>
 
-unsigned int faStr1(const char* str) {
-    unsigned int word_count = 0;
-    bool word = false;
-    bool accepted = true;
-
-    for (int i = 0; i < strlen(str); i++) {
-        if (str[i] == ' ') {
-            if (word && accepted) {
-                word_count++;
-            }
-            word = false;
-            accepted = true;
-        } else {
-            if (!word) {
-                word = true;
-            }
-            if (isdigit(str[i])) {
-                accepted = false;
-            }
+namespace {
+    bool hasDigits(const char* s) {
+        while (*s) {
+            if (isdigit(*s++)) return true;
         }
+        return false;
     }
-    if (word && accepted) {
-        word_count++;
+
+    bool isValidWord2(const char* s) {
+        if (!isupper(*s)) return false;
+        while (*++s) {
+            if (!islower(*s)) return false;
+        }
+        return true;
     }
-    return word_count;
 }
 
-unsigned int faStr2(const char* str) {
-    unsigned int word_count = 0;
-    bool word = false;
-    bool accepted = true;
-
-    for (int i = 0; i < strlen(str); i++) {
-        if (str[i] == ' ') {
-            if (word && accepted) {
-                word_count++;
-            }
-            word = false;
-            accepted = true;
-        } else {
-            if (!word) {
-                if (str[i] >= 'A' && str[i] <= 'Z') {
-                    accepted = true;
-                } else {
-                    accepted = false;
-                }
-                word = true;
-            } else {
-                if (str[i] < 'a' || str[i] > 'z') {
-                    accepted = false;
-                }
-            }
-        }
+unsigned int faStr1(const char* s) {
+    unsigned cnt = 0;
+    while (*s) {
+        while (*s == ' ') s++;
+        if (!*s) break;
+        
+        const char* start = s;
+        while (*s && *s != ' ') s++;
+        
+        char word[256];
+        strncpy(word, start, s - start);
+        word[s - start] = '\0';
+        
+        if (!hasDigits(word)) cnt++;
     }
-    if (word && accepted) {
-        word_count++;
-    }
-    return word_count;
+    return cnt;
 }
 
-unsigned int faStr3(const char* str) {
-    unsigned int word_count = 0;
-    unsigned int length = 0;
-    bool word = false;
-    unsigned int curr_length = 0;
-
-    for (int i = 0; i < strlen(str); i++) {
-        if (str[i] == ' ') {
-            if (word) {
-                length += curr_length;
-                word_count++;
-                curr_length = 0;
-            }
-            word = false;
-        } else {
-            word = true;
-            curr_length++;
-        }
+unsigned int faStr2(const char* s) {
+    unsigned cnt = 0;
+    while (*s) {
+        while (*s == ' ') s++;
+        if (!*s) break;
+        
+        const char* start = s;
+        while (*s && *s != ' ') s++;
+        
+        char word[256];
+        strncpy(word, start, s - start);
+        word[s - start] = '\0';
+        
+        if (isValidWord2(word)) cnt++;
     }
-    if (word) {
-        length += curr_length;
-        word_count++;
-    }
-    double avg = static_cast<double>(length) / word_count;
+    return cnt;
+}
 
-    return static_cast<unsigned int>(avg + 0.5);
+unsigned int faStr3(const char* s) {
+    unsigned total_len = 0, word_cnt = 0;
+    while (*s) {
+        while (*s == ' ') s++;
+        if (!*s) break;
+        
+        const char* start = s;
+        while (*s && *s != ' ') s++;
+        
+        total_len += s - start;
+        word_cnt++;
+    }
+    return word_cnt ? (total_len + word_cnt/2) / word_cnt : 0;
 }
