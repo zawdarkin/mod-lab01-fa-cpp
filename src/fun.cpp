@@ -27,14 +27,14 @@ unsigned int faStr1(const char* s) {
     while (*s) {
         while (*s == ' ') s++;
         if (!*s) break;
-        
+
         const char* start = s;
         while (*s && *s != ' ') s++;
-        
+
         char word[256];
         strncpy(word, start, s - start);
         word[s - start] = '\0';
-        
+
         if (!hasDigits(word)) cnt++;
     }
     return cnt;
@@ -45,14 +45,14 @@ unsigned int faStr2(const char* s) {
     while (*s) {
         while (*s == ' ') s++;
         if (!*s) break;
-        
+
         const char* start = s;
         while (*s && *s != ' ') s++;
-        
+
         char word[256];
         strncpy(word, start, s - start);
         word[s - start] = '\0';
-        
+
         if (isValidWord2(word)) cnt++;
     }
     return cnt;
@@ -63,10 +63,10 @@ unsigned int faStr3(const char* s) {
     while (*s) {
         while (*s == ' ') s++;
         if (!*s) break;
-        
+
         const char* start = s;
         while (*s && *s != ' ') s++;
-        
+
         total_len += s - start;
         word_cnt++;
     }
