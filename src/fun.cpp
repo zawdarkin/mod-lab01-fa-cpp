@@ -1,23 +1,26 @@
 // Copyright 2022 UNN-IASR
 #include "fun.h"
 #include <cctype>
+#include <cstring>
 
 namespace {
-    bool hasDigits(const char* s) {
-        while (*s) {
-            if (isdigit(*s++)) return true;
-        }
-        return false;
-    }
 
-    bool isValidWord2(const char* s) {
-        if (!isupper(*s)) return false;
-        while (*++s) {
-            if (!islower(*s)) return false;
-        }
-        return true;
+bool hasDigits(const char* s) {
+    while (*s) {
+        if (isdigit(*s++)) return true;
     }
+    return false;
 }
+
+bool isValidWord2(const char* s) {
+    if (!isupper(*s)) return false;
+    while (*++s) {
+        if (!islower(*s)) return false;
+    }
+    return true;
+}
+
+}  // namespace
 
 unsigned int faStr1(const char* s) {
     unsigned cnt = 0;
